@@ -7,11 +7,11 @@
 
 #define PIN_BELUEFTUNGSKLAPPE 3   //definieren der PINs
 
-#define PIN_EN 5
-#define PIN_IN1 7
-#define PIN_IN2 6
+#define PIN_EN 5  //Geschwindigkeit Ventilator
+#define PIN_IN1 7  //Richtung, in die der Ventilator dreht
+#define PIN_IN2 6  //Richtung, in die der Ventilator dreht
 
-SimulatedESP8266 myESP(3,4);  //PINS definieren!!!!!!!
+SimulatedESP8266 myESP(1,0);  //PINS anschauen...
 
 AirSensor airSensor1;   //Deklaration Objekte (initialisierung ohne Startwert)
 Servo klappe1;
@@ -24,11 +24,11 @@ String host = "104.248.41.20:1885";
 void setSpeed(int speed)
 {
   analogWrite(PIN_EN, speed);
-  }    //PINS!!!!!!!
+  }    
 
 void setAngle(int angle)
 {
-  analogWrite(PIN_IN1, angle);  //PINS!!!!!!!
+  analogWrite(PIN_BELUEFTUNGSKLAPPE, angle);  //PINS!!!!!!!
   }
 
 void setup() {
@@ -43,8 +43,8 @@ void loop() {
   ventilator1.setVentilatorSpeed(quality);    //Ventilator Geschwindigkeit initialisieren
 
   int Speed = analogRead(PIN_EN);
-  int Angle = analogRead(PIN_IN1);
-  int Airquality = analogRead(PIN_IN2);
+  int Angle = analogRead(PIN_BELUEFTUNGSKLAPPE);
+  int Airquality = analogRead(quality);
   
   String payload_speed = "{\"Speed\":" + String(Speed);
   payload_speed = payload_speed + "}";
@@ -56,14 +56,14 @@ void loop() {
   String payload_quality = "{\"Airquality\":" + String(Airquality);
   payload_quality = payload_quality + "}";
 
-  int speed = myESP.httpPost(host, "/Venti/postSpeed", payload_speed).toInt();
-  Serial.println(speed);
+  int speedeee = myESP.httpPost(host, "/Venti/postSpeed", payload_speed).toInt();
+  Serial.println(speedeee);
 
-  int angle = myESP.httpPost(host, "//Klappe/postAngle", payload_angle).toInt();
-  Serial.println(angle);
+  int angleeee = myESP.httpPost(host, "//Klappe/postAngle", payload_angle).toInt();
+  Serial.println(angleeee);
 
-  setSpeed(speed);
-  setAngle(angle);
+  setSpeed(speedeee);
+  setAngle(angleeee);
 
   
 
