@@ -10,9 +10,11 @@ class Ventilator        //KLassendeklaration
 {
 public:     //Variablen die beim Verwenden eines Objektes dieser Klasse sichtbar sind
     Ventilator(const int PIN_EN, const int PIN_IN1, const int PIN_IN2);
-    void setVentilatorSpeed(float quality);
+    float setVentilatorSpeed(float quality);
+
 
 private:        //Variablen die nur innerhalb diser Klasse sichtbar sind
+    
     int speed;
     int PIN_EN;
     const int PIN_IN1;

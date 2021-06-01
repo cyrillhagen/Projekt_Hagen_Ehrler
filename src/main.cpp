@@ -11,7 +11,7 @@
 #define PIN_IN1 7  //Richtung, in die der Ventilator dreht
 #define PIN_IN2 6  //Richtung, in die der Ventilator dreht
 
-SimulatedESP8266 myESP(1,0);  //PINS anschauen...
+SimulatedESP8266 myESP(12,11);  //PINS anschauen...
 
 AirSensor airSensor1;   //Deklaration Objekte (initialisierung ohne Startwert)
 Servo klappe1;
@@ -20,16 +20,6 @@ Belueftungsklappe belueftungsklappe1{PIN_BELUEFTUNGSKLAPPE, klappe1} ;
 Ventilator ventilator1{PIN_EN,PIN_IN1,PIN_IN2};
 
 String host = "104.248.41.20:1885";
-
-void setSpeed(int speed)
-{
-  analogWrite(PIN_EN, speed);
-  }    
-
-void setAngle(int angle)
-{
-  analogWrite(PIN_BELUEFTUNGSKLAPPE, angle);  //PINS!!!!!!!
-  }
 
 void setup() {
   Serial.begin(9600);
@@ -42,29 +32,40 @@ void loop() {
   belueftungsklappe1.setPositionBelueftungsklappe(quality);   //Position Belueftungsklappe initialisieren
   ventilator1.setVentilatorSpeed(quality);    //Ventilator Geschwindigkeit initialisieren
 
-  int Speed = analogRead(PIN_EN);
-  int Angle = analogRead(PIN_BELUEFTUNGSKLAPPE);
-  int Airquality = analogRead(quality);
+//  int Speed = analogRead(PIN_EN);
+//  int Angle = analogRead(PIN_BELUEFTUNGSKLAPPE);
+//  int Airquality = analogRead(quality);
   
-  String payload_speed = "{\"Speed\":" + String(Speed);
-  payload_speed = payload_speed + "}";
+//  String payload_speed = "{\"Speed\":" + String(Speed);
+//  payload_speed = payload_speed + "}";
 
-  String payload_angle = "{\"Angle\":" + String(Angle);
-  payload_angle = payload_angle + "}";
+//  String payload_angle = "{\"Angle\":" + String(Angle);
+//  payload_angle = payload_angle + "}";
 
 
-  String payload_quality = "{\"Airquality\":" + String(Airquality);
-  payload_quality = payload_quality + "}";
+//  String payload_quality = "{\"Airquality\":" + String(Airquality);
+//  payload_quality = payload_quality + "}";
 
-  int speedeee = myESP.httpPost(host, "/Venti/postSpeed", payload_speed).toInt();
-  Serial.println(speedeee);
+//  int speedeee = myESP.httpPost(host, "/Venti/postSpeed", payload_speed).toInt();
+//  Serial.println(speedeee);
 
-  int angleeee = myESP.httpPost(host, "//Klappe/postAngle", payload_angle).toInt();
-  Serial.println(angleeee);
+//  int angleeee = myESP.httpPost(host, "//Klappe/postAngle", payload_angle).toInt();
+//  Serial.println(angleeee);
 
-  setSpeed(speedeee);
-  setAngle(angleeee);
+//  setSpeed(speedeee);
+//  setAngle(angleeee);
 
+//ventilator1.setVentilatorSpeed(quality);
+
+String response = myESP.httpGet(host, "/Data");  
+  Serial.println(response);
+
+ String  payload1 = "{\"Airquality\":" + String(airSensor1.getAirQuality()) +
+                    ",\"Angle\":" + String(belueftungsklappe1.setPositionBelueftungsklappe(quality)) +
+                    ",\"Speed\":" + String(ventilator1.setVentilatorSpeed(quality)) + "}";
+//  payload_quality = payload_quality + "}";
+
+myESP.httpPost(host, "/Data", payload1);
   
 
   

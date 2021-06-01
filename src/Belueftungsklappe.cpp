@@ -11,7 +11,7 @@ Belueftungsklappe::Belueftungsklappe(int pinBelueftungsklappe, Servo belueftungs
     position = 0;       //Implementierung Konstruktor
 }
 
-void Belueftungsklappe::setPositionBelueftungsklappe(float quality)         //Positionsbedingung
+float Belueftungsklappe::setPositionBelueftungsklappe(float quality)         //Positionsbedingung
 {
     if (quality <= 1 && quality >= 0.7)
     {
@@ -25,5 +25,8 @@ void Belueftungsklappe::setPositionBelueftungsklappe(float quality)         //Po
     belueftungsklappenposition.write(position);
 
     Serial.println(position);
+    
+
+    return position;
     
 }

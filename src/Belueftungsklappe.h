@@ -10,7 +10,7 @@ class Belueftungsklappe     //KLassendeklaration
 {
 public:     //Variablen die beim Verwenden eines Objektes dieser Klasse sichtbar sind
     Belueftungsklappe(int pinBelueftungsklappe, Servo belueftungsklappenposition);      //Dekleration Konstruktor
-    void setPositionBelueftungsklappe(float quality);
+    float setPositionBelueftungsklappe(float quality);
 
 private:       //Variablen die nur innerhalb diser Klasse sichtbar sind
     int position;

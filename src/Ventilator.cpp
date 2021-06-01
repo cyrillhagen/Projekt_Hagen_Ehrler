@@ -16,16 +16,25 @@ Ventilator::Ventilator(const int PIN_EN, const int PIN_IN1, const int PIN_IN2) :
     speed = 0;      //Implementierung Konstruktor
 }
 
-void Ventilator::setVentilatorSpeed(float quality)      //Geschwindikeitsbedingung
+float Ventilator::setVentilatorSpeed(float quality)      //Geschwindikeitsbedingung
 {
     if (quality <= 0.7 && quality >= 0.6)
     {
         speed = 1017-(1270*quality);
     }
-    else 
+
+    if (quality < 0.6)
+
     {
-        speed = 0;
+        speed = 255;
+    }
+
+    else
+    {
+       speed = 0;
     }
     analogWrite(PIN_EN, speed);
     Serial.println(speed);
+
+    return speed;
 }
